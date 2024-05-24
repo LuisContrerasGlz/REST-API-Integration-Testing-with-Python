@@ -10,7 +10,7 @@ def test_can_call_endpoint():
     response = requests.get(ENDPOINT)
     assert response.status_code == 200
 
-def test_can_create_tasl():
+def test_can_create_task():
     payload = new_task_payload()
     create_task_response = create_task(payload)
     assert create_task_response.status_code == 200
