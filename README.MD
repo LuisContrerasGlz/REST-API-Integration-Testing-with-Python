@@ -19,3 +19,7 @@ https://todo.pixegami.io/docs
 
 ![API Doc](doc.png)
 
+
+# Run test
+
+To run the test in terminal enter the command: pytest test_endpoint.py and/or pytest test_endpointV2.py
