@@ -1,6 +1,6 @@
 # REST API Integration Testing with Python
 
-API testing project with python, pytest and request.
+API testing project with python, pytest and request and uuid for data.
 
 Validation of CRUD operations for API end poing: https://todo.pixegami.io/
 

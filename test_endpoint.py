@@ -1,3 +1,5 @@
+import uuid
+
 import pytest
 import requests
 
@@ -52,13 +54,14 @@ def test_can_update_task():
 def test_can_list_tasks():
     # Create N tasks
     n = 3
+    payload = new_task_payload()
     for _ in range(n):
-        payload = new_task_payload()
         create_task_response = create_task(payload)
         assert create_task_response.status_code == 200
 
     # List tasks, and check that htere are N items
-    list_tasks_response = list_tasks("test_user")
+    user_id = payload["user_id"]
+    list_tasks_response = list_tasks(user_id)
     assert list_tasks_response.status_code == 200
 
     data = list_tasks_response.json()
@@ -66,9 +69,6 @@ def test_can_list_tasks():
 
     tasks = data["tasks"]
     assert len(tasks) == n
-
-
-
 
 
 def create_task(payload):
@@ -82,12 +82,13 @@ def get_task(task_id):
     return requests.get(ENDPOINT + f"/get-task/{task_id}")
 
 def new_task_payload():
+    user_id = f"test_user_{uuid.uuid4().hex}"
+    content = f"test_content_{uuid.uuid4().hex}"
     return {
-        "content": "my test content",
-        "user_id": "test_user",
+        "content": content,
+        "user_id": user_id,
         "is_done": False
     }
-
 
 def list_tasks(user_id):
     return requests.get(ENDPOINT + f"/list-tasks/{user_id}")
