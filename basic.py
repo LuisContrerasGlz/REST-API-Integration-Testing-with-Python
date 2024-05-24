@@ -1,3 +1,4 @@
+import pytest
 import requests
 
 ENDPOINT = "https://todo.pixegami.io/"
