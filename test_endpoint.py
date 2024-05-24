@@ -49,6 +49,27 @@ def test_can_update_task():
     assert get_task_data["is_done"] == new_payload["is_done"]
 
 
+def test_can_list_tasks():
+    # Create N tasks
+    n = 3
+    for _ in range(n):
+        payload = new_task_payload()
+        create_task_response = create_task(payload)
+        assert create_task_response.status_code == 200
+
+    # List tasks, and check that htere are N items
+    list_tasks_response = list_tasks("test_user")
+    assert list_tasks_response.status_code == 200
+
+    data = list_tasks_response.json()
+    print(data)
+
+    tasks = data["tasks"]
+    assert len(tasks) == n
+
+
+
+
 
 def create_task(payload):
     return requests.put(ENDPOINT + "/create-task", json=payload)
@@ -68,4 +89,6 @@ def new_task_payload():
     }
 
 
+def list_tasks(user_id):
+    return requests.get(ENDPOINT + f"/list-tasks/{user_id}")
 
