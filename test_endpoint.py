@@ -71,6 +71,24 @@ def test_can_list_tasks():
     assert len(tasks) == n
 
 
+def test_can_delete_task():
+    # Create a task
+
+    payload = new_task_payload()
+    create_task_response = create_task(payload)
+    assert create_task_response.status_code == 200
+    task_id = create_task_response.json()["task"]["task_id"]
+
+    # Delete the task
+    delete_task_response = delete_task(task_id)
+    assert delete_task_response.status_code == 200
+
+    # Get the task and check that it is not found
+    get_task_response = get_task(task_id)
+    assert get_task_response.status_code == 404
+
+# Helper functions 
+
 def create_task(payload):
     return requests.put(ENDPOINT + "/create-task", json=payload)
 
@@ -92,4 +110,7 @@ def new_task_payload():
 
 def list_tasks(user_id):
     return requests.get(ENDPOINT + f"/list-tasks/{user_id}")
+
+def delete_task(task_id):
+    return requests.delete(ENDPOINT + f"/delete-task/{task_id}")
 
